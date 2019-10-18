@@ -93,6 +93,52 @@ public class BST {
 	    { 
 	        inorderRec(root); 
 	     } 
+	void deleteKey(int age, String name) 
+	    { 
+	        root = deleteRec(root, age, name); 
+	    } 
+	  
+	    /* A recursive function to insert a new key in BST */
+	    Node deleteRec(Node root, int age, String name) 
+	    { 
+	        
+	        if (root == null)
+	        {
+	        	return root; 
+	        }
+	        if ((int)name.toLowerCase().charAt(0)<(int)root.name.toLowerCase().charAt(0)) 
+	            root.left = deleteRec(root.left, age, name); 
+	        else if ((int)name.toLowerCase().charAt(0)>(int)root.name.toLowerCase().charAt(0)) 
+	            root.right = deleteRec(root.right, age,name); 
+	  
+	        else
+	        { 
+	            // node with only one child or no child 
+	            if (root.left == null) 
+	                return root.right; 
+	            else if (root.right == null) 
+	                return root.left; 
+	  
+	            // node with two children: Get the inorder successor (smallest in the right subtree) 
+	            root.name = minValue(root.right); 
+	  
+	            // Delete the inorder successor 
+	            root.right = deleteRec(root.right, root.age,root.name); 
+	        } 
+	  
+	        return root; 
+	    } 
+	    
+	    public String minValue(Node root) 
+	    { 
+	        String minv = root.name; 
+	        while (root.left != null) 
+	        { 
+	            minv = root.left.name; 
+	            root = root.left; 
+	        } 
+	        return minv; 
+	    } 
 	   
 	     
 	    public static  void inorderRec(Node root) { 
@@ -113,7 +159,8 @@ public class BST {
 	    	{
 	    		System.out.println("Enter 1 to insert");
 	    		System.out.println("Enter 2 to print");
-	    		
+	    		System.out.println("Enter 3 to Delete");
+			
 	    		int choice = sc.nextInt();
 	    		switch(choice)
 	    		{
@@ -135,6 +182,16 @@ public class BST {
 	    			{
 	    				System.out.println("The entries in tree in the inorder form: ");
 	    				tree.inorder();
+	    				break;
+	    			}
+				case 3:
+	    			{
+	    				System.out.println("Enter the name of the person ");
+	    				String name = sc.next();
+	    				System.out.println("Enter the age of that person");
+	    				int age = sc.nextInt();
+	    				tree.deleteKey(age,name);
+	    				System.out.println("Deletion Sucessful..........!!!!!!!!!");
 	    				break;
 	    			}
 	    		
